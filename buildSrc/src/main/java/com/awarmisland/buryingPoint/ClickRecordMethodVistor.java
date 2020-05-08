@@ -3,6 +3,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
 
+import static com.awarmisland.config.Config.DOT_PATH;
+
 public class ClickRecordMethodVistor  extends AdviceAdapter {
 
 
@@ -22,17 +24,9 @@ public class ClickRecordMethodVistor  extends AdviceAdapter {
 
     @Override
     protected void onMethodEnter() {
-//        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/awarmisland/asmproject/buryingPoint/DotComponent", "getInstance", "()Lcom/awarmisland/asmproject/buryingPoint/DotComponent;", false);
-//        mv.visitVarInsn(Opcodes.ALOAD, 0);
-//        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
-//        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Class", "getName", "()Ljava/lang/String;", false);
-//        mv.visitLdcInsn("onCreate");
-//        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/awarmisland/asmproject/buryingPoint/DotComponent", "recordLifecycle", "(Ljava/lang/String;Ljava/lang/String;)V", false);
-//        mv.visitVarInsn(ALOAD, 1);
-
-        mv.visitMethodInsn(INVOKESTATIC, "com/awarmisland/asmproject/buryingPoint/DotComponent", "getInstance", "()Lcom/awarmisland/asmproject/buryingPoint/DotComponent;", false);
+        mv.visitMethodInsn(INVOKESTATIC, DOT_PATH, "getInstance", "()L"+DOT_PATH+";", false);
         mv.visitVarInsn(ALOAD, 1);
-        mv.visitMethodInsn(INVOKEVIRTUAL, "com/awarmisland/asmproject/buryingPoint/DotComponent", "recordViewClick", "(Landroid/view/View;)V", false);
+        mv.visitMethodInsn(INVOKEVIRTUAL, DOT_PATH, "recordViewClick", "(Landroid/view/View;)V", false);
         super.onMethodEnter();
     }
 }
