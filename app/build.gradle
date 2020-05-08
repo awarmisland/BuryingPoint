@@ -1,15 +1,28 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.awarmisland.plugin'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
+
     defaultConfig {
-        applicationId "com.awarmisland.android.buryingpoint"
+        applicationId "com.awarmisland.asmproject"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+//        testInstrumentationRunner "androidx.dd.test.runner.AndroidJUnitRunner"
+        //记得加上这个
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
     buildTypes {
         release {
@@ -17,13 +30,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    implementation "com.android.support:design:27.1.0"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation project(':aptPlugin')
+    annotationProcessor project(':aptProcessor')
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'androidx.dd.test.ext:junit:1.1.1'
+//    androidTestImplementation 'androidx.dd.test.espresso:espresso-core:3.2.0'
 }

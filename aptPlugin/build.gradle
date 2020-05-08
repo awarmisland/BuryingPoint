@@ -1,0 +1,9 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api project(':aptAnnotation')//依赖刚刚创建的annotation模块
+}
+
+sourceCompatibility = "8"
+targetCompatibility = "8"

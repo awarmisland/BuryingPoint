@@ -1,0 +1,14 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':aptAnnotation')//依赖刚刚创建的annotation模块
+    implementation "com.google.auto.service:auto-service:1.0-rc6"//自动配置的
+    annotationProcessor "com.google.auto.service:auto-service:1.0-rc6" //这个在gradle5.0以上需要的
+    implementation 'com.squareup:javapoet:1.12.1'//方便编写代码的
+}
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
