@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.awarmisland.aptannotation.RecordClick;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -16,18 +18,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void initButton(){
+    protected void initButton(){
         Button btn_start = findViewById(R.id.btn_start);
         btn_start.setOnClickListener(this);
-
-
-
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View www) {
+                requestUrl("www.baidu.com");
             }
         });
+    }
 
+    @RecordClick("urlStr")
+    private void requestUrl(String url){
+        String d="";
     }
 
     @Override

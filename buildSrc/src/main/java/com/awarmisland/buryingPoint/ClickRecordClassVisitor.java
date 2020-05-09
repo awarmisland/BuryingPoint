@@ -42,6 +42,10 @@ public class ClickRecordClassVisitor extends ClassVisitor {
         return mv;
     }
 
+    @Override
+    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+        return super.visitAnnotation(desc, visible);
+    }
 
     @Override
     public void visitEnd() {
