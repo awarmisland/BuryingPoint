@@ -20,19 +20,16 @@ public class LifecycleClassVisitor extends ClassVisitor {
     }
 
     @Override
-    public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-//        System.out.println("LifecycleClassVisitor:visitMethod:" + name);
+    public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) { ;
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
+        LifecycleMethodVisitor method  = new LifecycleMethodVisitor(mv);
         //匹配FragmentActivity
-//        if ("android/support/v4/app/FragmentActivity".equals(this.mClassName)) {
-            if ("onCreate".equals(name) ) {
-                //处理onCreate
-                return new LifecycleOnCreateMethodVisitor(mv);
-            } else if ("onDestroy".equals(name)) {
-                //处理onDestroy
-                return new LifecycleOnDestroyMethodVisitor(mv);
-            }
-//        }
+        if ("onResume".equals(name)
+                ||"onStop".equals(name)) {
+            //处理onCreate
+            method.setLifecycleName(name);
+            return method;
+        }
         return mv;
     }
 

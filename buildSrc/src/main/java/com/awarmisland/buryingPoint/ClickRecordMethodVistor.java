@@ -18,8 +18,8 @@ public class ClickRecordMethodVistor  extends AdviceAdapter {
      * @param name   the method's name.
      * @param desc   the method's descriptor (see {@link Type Type}).
      */
-    protected ClickRecordMethodVistor(int api, MethodVisitor mv, int access, String name, String desc) {
-        super(api, mv, access, name, desc);
+    protected ClickRecordMethodVistor(MethodVisitor mv, int access, String name, String desc) {
+        super(ASM5, mv, access, name, desc);
     }
 
     @Override

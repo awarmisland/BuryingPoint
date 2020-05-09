@@ -21,15 +21,6 @@ class RecordTransform extends BaseTransform {
 
     @Override
     boolean isModifyClass(String className) {
-//        println '----------- isModifyClass "class" file <' + className + '> -----------'
-        if(className.contains('R$')||
-            className.contains('R2$')||
-            className.contains('R.class')||
-            className.contains('R2.class')||
-            className.contains('BuildConfig.class')||
-            className.equals('android')){
-            return false
-        }
         if (className.contains("MainActivity")) {
             return true
         }
