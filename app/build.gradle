@@ -6,7 +6,7 @@ android {
     buildToolsVersion "27.0.3"
 
     defaultConfig {
-        applicationId "com.awarmisland.asmproject"
+        applicationId "com.awarmisland.android.buryingpoint"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
