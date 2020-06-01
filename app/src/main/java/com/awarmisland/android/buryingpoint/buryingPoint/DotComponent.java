@@ -28,4 +28,9 @@ public class DotComponent {
         long time = System.currentTimeMillis();
         Log.d("DotCom",name +" "+" time: "+time);
     }
+
+    public void recordMethods(String className,String method,String args){
+        long time = System.currentTimeMillis();
+        Log.d("DotCom",className+" "+method+" args："+args+" time: "+time);
+    }
 }

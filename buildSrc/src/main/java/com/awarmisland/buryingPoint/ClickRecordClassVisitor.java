@@ -39,7 +39,7 @@ public class ClickRecordClassVisitor extends ClassVisitor {
                 return new ClickRecordMethodVistor(mv, access, name, desc);
             }
         }
-        return mv;
+        return new ClickRecordAnnVistor(mv,access,name,desc);
     }
 
     @Override
