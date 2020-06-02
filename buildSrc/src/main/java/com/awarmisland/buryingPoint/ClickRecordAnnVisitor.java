@@ -1,13 +1,14 @@
 package com.awarmisland.buryingPoint;
 
 import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
 
 import static com.awarmisland.config.Config.DOT_PATH;
 
-public class ClickRecordAnnVistor  extends AdviceAdapter {
+public class ClickRecordAnnVisitor extends AdviceAdapter {
     private boolean isAnnotation;
     private String lifecycleName;
     /**
@@ -20,7 +21,7 @@ public class ClickRecordAnnVistor  extends AdviceAdapter {
      * @param name   the method's name.
      * @param desc   the method's descriptor (see {@link Type Type}).
      */
-    protected ClickRecordAnnVistor(MethodVisitor mv, int access, String name, String desc) {
+    protected ClickRecordAnnVisitor(MethodVisitor mv, int access, String name, String desc) {
         super(ASM5, mv, access, name, desc);
         this.lifecycleName = name;
     }
@@ -33,6 +34,16 @@ public class ClickRecordAnnVistor  extends AdviceAdapter {
     @Override
     public void visitParameter(String name, int access) {
         super.visitParameter(name, access);
+    }
+
+    @Override
+    public void visitLabel(Label label) {
+        super.visitLabel(label);
+    }
+
+    @Override
+    public void visitLdcInsn(Object cst) {
+        super.visitLdcInsn(cst);
     }
 
     @Override
@@ -54,6 +65,21 @@ public class ClickRecordAnnVistor  extends AdviceAdapter {
         if("Lcom/awarmisland/aptannotation/RecordClick;".equals(desc)){
             isAnnotation=true;
         }
-        return super.visitAnnotation(desc, visible);
+        return new MAnnotationVisitor(super.visitAnnotation(desc, visible));
+    }
+
+    /**
+     * 访问注解
+     */
+    class MAnnotationVisitor extends AnnotationVisitor {
+
+        public MAnnotationVisitor(AnnotationVisitor av) {
+            super(ASM5, av);
+        }
+
+        @Override
+        public void visit(String name, Object value) {
+            super.visit(name, value);
+        }
     }
 }

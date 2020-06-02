@@ -1,14 +1,10 @@
 package com.awarmisland.buryingPoint;
 
 import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.TypePath;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ClickRecordClassVisitor extends ClassVisitor {
@@ -39,7 +35,7 @@ public class ClickRecordClassVisitor extends ClassVisitor {
                 return new ClickRecordMethodVistor(mv, access, name, desc);
             }
         }
-        return new ClickRecordAnnVistor(mv,access,name,desc);
+        return new ClickRecordAnnVisitor(mv,access,name,desc);
     }
 
     @Override
