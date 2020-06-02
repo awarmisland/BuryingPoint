@@ -1,16 +1,17 @@
 package com.awarmisland.buryingPoint;
 
+
 import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
 
 import static com.awarmisland.config.Config.DOT_PATH;
+import static org.objectweb.asm.Opcodes.ASM5;
 
-public class ClickRecordAnnVisitor extends AdviceAdapter {
+public class ClickRecordAnnVisitor extends MethodVisitor{
     private boolean isAnnotation;
-    private String lifecycleName;
+    private String methodName;
     /**
      * Creates a new {@link AdviceAdapter}.
      *
@@ -22,13 +23,8 @@ public class ClickRecordAnnVisitor extends AdviceAdapter {
      * @param desc   the method's descriptor (see {@link Type Type}).
      */
     protected ClickRecordAnnVisitor(MethodVisitor mv, int access, String name, String desc) {
-        super(ASM5, mv, access, name, desc);
-        this.lifecycleName = name;
-    }
-
-    @Override
-    public void visitCode() {
-        super.visitCode();
+        super(ASM5,mv);
+        this.methodName = name;
     }
 
     @Override
@@ -37,27 +33,23 @@ public class ClickRecordAnnVisitor extends AdviceAdapter {
     }
 
     @Override
-    public void visitLabel(Label label) {
-        super.visitLabel(label);
-    }
-
-    @Override
-    public void visitLdcInsn(Object cst) {
-        super.visitLdcInsn(cst);
-    }
-
-    @Override
-    protected void onMethodEnter() {
+    public void visitCode() {
         if (isAnnotation) {
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, DOT_PATH, "getInstance", "()L"+DOT_PATH+";", false);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Class", "getName", "()Ljava/lang/String;", false);
-            mv.visitLdcInsn(lifecycleName);
+            mv.visitLdcInsn(methodName);
             mv.visitLdcInsn("111");
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, DOT_PATH, "recordMethods", "(Ljava/lang/String;Ljava/lang/String;)V", false);
+            mv.visitParameter("urlStr",Opcodes.ACC_MANDATED);
         }
-        super.onMethodEnter();
+        super.visitCode();
+    }
+
+    @Override
+    public void visitVarInsn(int opcode, int var) {
+        super.visitVarInsn(opcode, var);
     }
 
     @Override

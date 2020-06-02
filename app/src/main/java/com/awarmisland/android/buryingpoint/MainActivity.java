@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @RecordClick("urlStr")
     private void requestUrl(String url){
         String d = url;
+        StringBuilder builder = new StringBuilder();
+        builder.append(d).append(url);
     }
 
     @Override
