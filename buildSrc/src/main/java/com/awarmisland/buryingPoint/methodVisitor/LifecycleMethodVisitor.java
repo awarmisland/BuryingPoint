@@ -1,4 +1,4 @@
-package com.awarmisland.buryingPoint;
+package com.awarmisland.buryingPoint.methodVisitor;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -23,7 +23,6 @@ public class LifecycleMethodVisitor extends MethodVisitor {
         mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Class", "getName", "()Ljava/lang/String;", false);
         mv.visitLdcInsn(lifecycleName);
         mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, DOT_PATH, "recordLifecycle", "(Ljava/lang/String;Ljava/lang/String;)V", false);
-
     }
 
     @Override

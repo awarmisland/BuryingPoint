@@ -1,6 +1,6 @@
 package com.awarmisland.transform
 
-import com.awarmisland.buryingPoint.LifecycleClassVisitor
+import com.awarmisland.buryingPoint.classVisitor.LifecycleClassVisitor
 import org.gradle.api.Project
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor

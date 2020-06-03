@@ -1,4 +1,4 @@
-package com.awarmisland.buryingPoint;
+package com.awarmisland.buryingPoint.methodVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
@@ -18,7 +18,7 @@ public class ClickRecordMethodVistor  extends AdviceAdapter {
      * @param name   the method's name.
      * @param desc   the method's descriptor (see {@link Type Type}).
      */
-    protected ClickRecordMethodVistor(MethodVisitor mv, int access, String name, String desc) {
+    public ClickRecordMethodVistor(MethodVisitor mv, int access, String name, String desc) {
         super(ASM5, mv, access, name, desc);
     }
 

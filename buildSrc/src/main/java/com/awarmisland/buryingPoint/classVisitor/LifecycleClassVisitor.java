@@ -1,4 +1,6 @@
-package com.awarmisland.buryingPoint;
+package com.awarmisland.buryingPoint.classVisitor;
+
+import com.awarmisland.buryingPoint.methodVisitor.LifecycleMethodVisitor;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;

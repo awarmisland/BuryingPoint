@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.awarmisland.android.buryingpoint.buryingPoint.DotComponent;
 import com.awarmisland.aptannotation.RecordClick;
 
 
@@ -30,10 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @RecordClick("urlStr")
-    private void requestUrl(String url){
-        String d = url;
-        StringBuilder builder = new StringBuilder();
-        builder.append(d).append(url);
+    private void requestUrl(String urlStr){
+        String test = urlStr;
+        int a = 1;
     }
 
     @Override

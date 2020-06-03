@@ -1,4 +1,7 @@
-package com.awarmisland.buryingPoint;
+package com.awarmisland.buryingPoint.classVisitor;
+
+import com.awarmisland.buryingPoint.annotationVisitor.ClickRecordAnnVisitor;
+import com.awarmisland.buryingPoint.methodVisitor.ClickRecordMethodVistor;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
