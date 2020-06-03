@@ -32,7 +32,7 @@ class RecordTransform extends BaseTransform {
         println '----------- deal with "class" file <' + className + '> -----------'
         ClassReader classReader = new ClassReader(classBytes)
         ClassWriter classWriter = new ClassWriter(classReader,ClassWriter.COMPUTE_MAXS)
-        ClassVisitor cv = new ClickRecordClassVisitor(classWriter)
+        ClassVisitor cv = new ClickRecordClassVisitor(classWriter,classBytes)
         classReader.accept(cv,EXPAND_FRAMES)
         return classWriter.toByteArray()
     }

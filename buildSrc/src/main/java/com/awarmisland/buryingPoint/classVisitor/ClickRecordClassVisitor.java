@@ -2,6 +2,7 @@ package com.awarmisland.buryingPoint.classVisitor;
 
 import com.awarmisland.buryingPoint.annotationVisitor.ClickRecordAnnVisitor;
 import com.awarmisland.buryingPoint.methodVisitor.ClickRecordMethodVistor;
+import com.awarmisland.utils.AnnotationUtils;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
@@ -13,9 +14,10 @@ import java.util.Arrays;
 public class ClickRecordClassVisitor extends ClassVisitor {
     private String mClassName;
     private String[] mInterfaces;
-
-    public ClickRecordClassVisitor(ClassVisitor cv) {
+    private byte[] classBytes;
+    public ClickRecordClassVisitor(ClassVisitor cv,byte[] classBytes) {
         super(Opcodes.ASM5,cv);
+        this.classBytes = classBytes;
     }
 
     @Override
@@ -38,8 +40,10 @@ public class ClickRecordClassVisitor extends ClassVisitor {
                 return new ClickRecordMethodVistor(mv, access, name, desc);
             }
         }
-        return new ClickRecordAnnVisitor(mv,access,name,desc);
+        return new ClickRecordAnnVisitor(mv,access,name,desc,classBytes);
     }
+
+
 
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {

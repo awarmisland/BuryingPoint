@@ -1,22 +1,21 @@
 package com.awarmisland.buryingPoint.annotationVisitor;
 
-
+import com.awarmisland.bean.MethodArgsBean;
+import com.awarmisland.utils.AnnotationUtils;
+import com.awarmisland.utils.ListUtils;
+import com.awarmisland.utils.StringUtils;
 import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
-import org.objectweb.asm.commons.Method;
-
-import static com.awarmisland.config.Config.DOT_PATH;
-import static org.objectweb.asm.Opcodes.ASM5;
+import java.util.List;
 
 public class ClickRecordAnnVisitor extends AdviceAdapter{
     private boolean isAnnotation;
-    private String annotationKeyValue;
-    private int annotationKeyIndex;
     private String methodName;
+    private String annotationKeyValue;
+    private byte[] classBytes;
     /**
      * Creates a new {@link AdviceAdapter}.
      *
@@ -27,43 +26,43 @@ public class ClickRecordAnnVisitor extends AdviceAdapter{
      * @param name   the method's name.
      * @param desc   the method's descriptor (see {@link Type Type}).
      */
-    public ClickRecordAnnVisitor(MethodVisitor mv, int access, String name, String desc) {
+    public ClickRecordAnnVisitor(MethodVisitor mv, int access, String name, String desc,byte[] classBytes) {
         super(ASM5,mv,access,name,desc);
-        Type[] typs = Type.getArgumentTypes(desc);
         this.methodName = name;
+        this.classBytes = classBytes;
     }
 
-
     @Override
-    public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-        if(isAnnotation&&annotationKeyValue!=null){
-            if(annotationKeyValue.equals(name)){
-                annotationKeyIndex = index;
-            }
-        }
-        super.visitLocalVariable(name, desc, signature, start, end, index);
-    }
-
-
-    @Override
-    public void visitCode() {
+    protected void onMethodEnter() {
         if (isAnnotation) {
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "getInstance", "()Lcom/awarmisland/android/buryingpoint/buryingPoint/DotComponent;", false);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Class", "getName", "()Ljava/lang/String;", false);
             mv.visitLdcInsn(methodName);
-            mv.visitVarInsn(Opcodes.ALOAD, annotationKeyIndex);
+            mv.visitVarInsn(Opcodes.ALOAD, getIndexOfParam());
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "recordMethods", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false);
         }
-        super.visitCode();
+        super.onMethodEnter();
     }
 
-    @Override
-    public void visitVarInsn(int opcode, int var) {
-        super.visitVarInsn(opcode, var);
-    }
 
+    /**
+     * 获取 注解变量 所在 index
+     * @return
+     */
+    private int getIndexOfParam(){
+        List<MethodArgsBean> list = AnnotationUtils.getParamsOfMethod(classBytes);
+        if(!ListUtils.isEmptyList(list)){
+            for(MethodArgsBean bean : list){
+                if(!StringUtils.isEmpty(annotationKeyValue)
+                        &&annotationKeyValue.equals(bean.getArgName())){
+                    return bean.getIndex();
+                }
+            }
+        }
+        return 0;
+    }
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         if("Lcom/awarmisland/aptannotation/RecordClick;".equals(desc)){
