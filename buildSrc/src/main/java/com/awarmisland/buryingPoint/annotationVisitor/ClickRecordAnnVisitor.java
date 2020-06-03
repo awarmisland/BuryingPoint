@@ -33,7 +33,7 @@ public class ClickRecordAnnVisitor extends AdviceAdapter{
     }
 
     @Override
-    protected void onMethodEnter() {
+    protected void onMethodExit(int opcode) {
         if (isAnnotation) {
             mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "getInstance", "()Lcom/awarmisland/android/buryingpoint/buryingPoint/DotComponent;", false);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
@@ -43,9 +43,13 @@ public class ClickRecordAnnVisitor extends AdviceAdapter{
             mv.visitVarInsn(Opcodes.ALOAD, getIndexOfParam());
             mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "recordMethods", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false);
         }
-        super.onMethodEnter();
+        super.onMethodExit(opcode);
     }
 
+    @Override
+    public void visitEnd() {
+        super.visitEnd();
+    }
 
     /**
      * 获取 注解变量 所在 index

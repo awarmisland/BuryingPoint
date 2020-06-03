@@ -31,6 +31,6 @@ public class DotComponent {
 
     public void recordMethods(String className,String method,String args){
         long time = System.currentTimeMillis();
-        Log.d("DotCom",className+" "+method+" args："+args+" time: "+time);
+        Log.d("DotCom",className+"Method："+method+" args："+args+" time: "+time);
     }
 }
