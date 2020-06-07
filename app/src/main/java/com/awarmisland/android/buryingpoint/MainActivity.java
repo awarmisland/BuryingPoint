@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    @RecordClick("rel")
+    @RecordClick({"rel","urlStr"})
     private void requestUrl(String urlStr){
         String rel = "3d";
         int a = 1;

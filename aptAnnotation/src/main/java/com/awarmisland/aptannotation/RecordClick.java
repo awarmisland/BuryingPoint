@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.CLASS) //编译时注解
 @Target(ElementType.METHOD) //作用方法上
 public @interface RecordClick {
-    String value();
+    String[] value()  default { "" };
 }

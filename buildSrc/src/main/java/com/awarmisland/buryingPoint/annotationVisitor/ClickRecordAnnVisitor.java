@@ -4,17 +4,21 @@ import com.awarmisland.bean.MethodArgsBean;
 import com.awarmisland.utils.AnnotationUtils;
 import com.awarmisland.utils.ListUtils;
 import com.awarmisland.utils.StringUtils;
+
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ClickRecordAnnVisitor extends AdviceAdapter{
     private boolean isAnnotation;
     private String methodName;
-    private String annotationKeyValue;
+    private List<String> annoKeys;
     private byte[] classBytes;
     /**
      * Creates a new {@link AdviceAdapter}.
@@ -30,18 +34,15 @@ public class ClickRecordAnnVisitor extends AdviceAdapter{
         super(ASM5,mv,access,name,desc);
         this.methodName = name;
         this.classBytes = classBytes;
+        annoKeys = new ArrayList<>();
     }
 
     @Override
     protected void onMethodExit(int opcode) {
-        if (isAnnotation) {
-            mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "getInstance", "()Lcom/awarmisland/android/buryingpoint/buryingPoint/DotComponent;", false);
-            mv.visitVarInsn(Opcodes.ALOAD, 0);
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Class", "getName", "()Ljava/lang/String;", false);
-            mv.visitLdcInsn(methodName);
-            mv.visitVarInsn(Opcodes.ALOAD, getIndexOfParam());
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "recordMethods", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false);
+        if (isAnnotation&&!ListUtils.isEmptyList(annoKeys)) {
+            for(String param : annoKeys){
+                setRecordCode(param);
+            }
         }
         super.onMethodExit(opcode);
     }
@@ -52,15 +53,28 @@ public class ClickRecordAnnVisitor extends AdviceAdapter{
     }
 
     /**
-     * 获取 注解变量 所在 index
+     * record
+     * @param param
+     */
+    private void setRecordCode(String param){
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "getInstance", "()Lcom/awarmisland/android/buryingpoint/buryingPoint/DotComponent;", false);
+        mv.visitVarInsn(Opcodes.ALOAD, 0);
+        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
+        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/Class", "getName", "()Ljava/lang/String;", false);
+        mv.visitLdcInsn(methodName);
+        mv.visitVarInsn(Opcodes.ALOAD, getIndexOfParam(param));
+        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "recordMethods", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false);
+    }
+
+    /**
+     * 获取变量 index
      * @return
      */
-    private int getIndexOfParam(){
+    private int getIndexOfParam(String param){
         List<MethodArgsBean> list = AnnotationUtils.getParamsOfMethod(classBytes);
         if(!ListUtils.isEmptyList(list)){
             for(MethodArgsBean bean : list){
-                if(!StringUtils.isEmpty(annotationKeyValue)
-                        &&annotationKeyValue.equals(bean.getArgName())){
+                if(!StringUtils.isEmpty(param)&&param.equals(bean.getArgName())){
                     return bean.getIndex();
                 }
             }
@@ -84,9 +98,28 @@ public class ClickRecordAnnVisitor extends AdviceAdapter{
             super(ASM5, av);
         }
 
+
+        @Override
+        public AnnotationVisitor visitAnnotation(String name, String desc) {
+            return super.visitAnnotation(name, desc);
+        }
+
+        @Override
+        public AnnotationVisitor visitArray(String name) {
+            AnnotationVisitor visitor =  new AnnotationVisitor(ASM5, av){
+                @Override
+                public void visit(String name, Object value) {
+                    if(value!=null){
+                        annoKeys.add((String) value);
+                    }
+                }
+            };
+            visitor.visitArray(name);
+            return visitor;
+        }
+
         @Override
         public void visit(String name, Object value) {
-            annotationKeyValue = (String) value;
             super.visit(name, value);
         }
     }
