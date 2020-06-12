@@ -6,17 +6,20 @@ import android.view.View;
 import android.widget.Button;
 
 import com.awarmisland.android.buryingpoint.buryingPoint.DotComponent;
+import com.awarmisland.android.buryingpoint.buryingPoint.greendao.DBHelper;
 import com.awarmisland.aptannotation.RecordClick;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        RxPermissions permissions = new RxPermissions(this);
+        permissions.request(WRIT)
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initButton();
-
     }
 
     protected void initButton(){

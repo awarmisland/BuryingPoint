@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.awarmisland.plugin'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 27
@@ -30,7 +31,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    greendao {
+        schemaVersion 2 //当前数据库版本
+    }
 }
 
 dependencies {
@@ -41,6 +44,10 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
     implementation project(':aptPlugin')
     annotationProcessor project(':aptProcessor')
+    implementation 'org.greenrobot:greendao:3.3.0' // 添加库
+    implementation ('com.github.tbruyelle:rxpermissions:0.10.2'){
+        exclude group: 'com.android.support'
+    }
 //    testImplementation 'junit:junit:4.12'
 //    androidTestImplementation 'androidx.dd.test.ext:junit:1.1.1'
 //    androidTestImplementation 'androidx.dd.test.espresso:espresso-core:3.2.0'

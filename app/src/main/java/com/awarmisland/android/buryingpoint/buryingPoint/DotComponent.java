@@ -1,11 +1,21 @@
 package com.awarmisland.android.buryingpoint.buryingPoint;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
+
+import com.awarmisland.android.buryingpoint.CusApplication;
+import com.awarmisland.android.buryingpoint.buryingPoint.greendao.BuryingPointComponent;
+import com.awarmisland.android.buryingpoint.buryingPoint.greendao.ViewLifecycleTable;
 
 public class DotComponent {
 
     private static DotComponent instance;
+    private Context context;
+
+    private DotComponent(){
+        this.context = CusApplication.application;
+    }
 
     public static DotComponent getInstance() {
         if (instance == null) {
@@ -20,6 +30,12 @@ public class DotComponent {
 
     public void recordLifecycle(String className, String lifecycle){
         long time = System.currentTimeMillis();
+        ViewLifecycleTable table = new ViewLifecycleTable();
+        table.setClassName(className);
+        table.setLifecycle(lifecycle);
+        table.setTime(time);
+        BuryingPointComponent component = new BuryingPointComponent(context);
+        component.insertViewTable(table);
         Log.d("DotCom",className+" "+lifecycle+" time: "+time);
     }
 
