@@ -7,7 +7,7 @@ import org.greenrobot.greendao.annotation.Generated;
 @Entity
 public class ViewLifecycleTable {
     @Id(autoincrement = true)
-    private long id;
+    private Long id;
 
     private String className;
 
@@ -15,9 +15,8 @@ public class ViewLifecycleTable {
 
     private long time;
 
-
-    @Generated(hash = 1276968597)
-    public ViewLifecycleTable(long id, String className, String lifecycle,
+    @Generated(hash = 1215251211)
+    public ViewLifecycleTable(Long id, String className, String lifecycle,
             long time) {
         this.id = id;
         this.className = className;
@@ -29,14 +28,11 @@ public class ViewLifecycleTable {
     public ViewLifecycleTable() {
     }
 
-
-
-
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -63,5 +59,14 @@ public class ViewLifecycleTable {
     public void setTime(long time) {
         this.time = time;
     }
+
+
+
+
+ 
+
+  
+
+
 
 }

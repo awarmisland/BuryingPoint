@@ -30,12 +30,14 @@ public class DotComponent {
 
     public void recordLifecycle(String className, String lifecycle){
         long time = System.currentTimeMillis();
-        ViewLifecycleTable table = new ViewLifecycleTable();
-        table.setClassName(className);
-        table.setLifecycle(lifecycle);
-        table.setTime(time);
-        BuryingPointComponent component = new BuryingPointComponent(context);
-        component.insertViewTable(table);
+        if(context!=null){
+            ViewLifecycleTable table = new ViewLifecycleTable();
+            table.setClassName(className);
+            table.setLifecycle(lifecycle);
+            table.setTime(time);
+            BuryingPointComponent component = new BuryingPointComponent(context);
+            component.insertViewTable(table);
+        }
         Log.d("DotCom",className+" "+lifecycle+" time: "+time);
     }
 
