@@ -1,31 +1,30 @@
-package com.awarmisland.android.buryingpoint.buryingPoint.greendao;
+package com.awarmisland.android.buryingpoint.buryingPoint.greendao.table;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
-public class ViewLifecycleTable {
+public class ViewClickTable {
     @Id(autoincrement = true)
     private Long id;
 
     private String className;
 
-    private String lifecycle;
+    private String view_name;
 
     private long time;
 
-    @Generated(hash = 1215251211)
-    public ViewLifecycleTable(Long id, String className, String lifecycle,
-            long time) {
+    @Generated(hash = 1240804539)
+    public ViewClickTable(Long id, String className, String view_name, long time) {
         this.id = id;
         this.className = className;
-        this.lifecycle = lifecycle;
+        this.view_name = view_name;
         this.time = time;
     }
 
-    @Generated(hash = 601234493)
-    public ViewLifecycleTable() {
+    @Generated(hash = 2001035)
+    public ViewClickTable() {
     }
 
     public Long getId() {
@@ -44,12 +43,12 @@ public class ViewLifecycleTable {
         this.className = className;
     }
 
-    public String getLifecycle() {
-        return this.lifecycle;
+    public String getView_name() {
+        return this.view_name;
     }
 
-    public void setLifecycle(String lifecycle) {
-        this.lifecycle = lifecycle;
+    public void setView_name(String view_name) {
+        this.view_name = view_name;
     }
 
     public long getTime() {
@@ -59,14 +58,4 @@ public class ViewLifecycleTable {
     public void setTime(long time) {
         this.time = time;
     }
-
-
-
-
- 
-
-  
-
-
-
 }

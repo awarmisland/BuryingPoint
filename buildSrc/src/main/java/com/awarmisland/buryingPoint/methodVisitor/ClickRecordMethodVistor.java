@@ -24,9 +24,12 @@ public class ClickRecordMethodVistor  extends AdviceAdapter {
 
     @Override
     protected void onMethodEnter() {
-        mv.visitMethodInsn(INVOKESTATIC, DOT_PATH, "getInstance", "()L"+DOT_PATH+";", false);
+        mv.visitMethodInsn(INVOKESTATIC, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "getInstance", "()Lcom/awarmisland/android/buryingpoint/buryingPoint/DotComponent;", false);
+        mv.visitVarInsn(ALOAD, 0);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Object", "getClass", "()Ljava/lang/Class;", false);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getName", "()Ljava/lang/String;", false);
         mv.visitVarInsn(ALOAD, 1);
-        mv.visitMethodInsn(INVOKEVIRTUAL, DOT_PATH, "recordViewClick", "(Landroid/view/View;)V", false);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "com/awarmisland/android/buryingpoint/buryingPoint/DotComponent", "recordViewClick", "(Ljava/lang/String;Landroid/view/View;)V", false);
         super.onMethodEnter();
     }
 }

@@ -32,7 +32,7 @@ android {
         }
     }
     greendao {
-        schemaVersion 2 //当前数据库版本
+        schemaVersion 3 //当前数据库版本
     }
 }
 

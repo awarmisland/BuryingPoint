@@ -3,6 +3,9 @@ package com.awarmisland.android.buryingpoint.buryingPoint.greendao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.DaoMaster;
+import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.DaoSession;
+
 public class DBHelper {
     private static DBHelper mInstance;
     private Context context;
