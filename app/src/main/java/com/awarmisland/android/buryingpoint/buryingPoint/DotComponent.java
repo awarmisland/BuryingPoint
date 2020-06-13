@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.awarmisland.android.buryingpoint.CusApplication;
 import com.awarmisland.android.buryingpoint.buryingPoint.greendao.DBComponent;
+import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.RecordMethodTable;
 import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.ViewClickTable;
 import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.ViewLifecycleTable;
 
@@ -59,5 +60,14 @@ public class DotComponent {
     public void recordMethods(String className,String method,String args){
         long time = System.currentTimeMillis();
         Log.d("DotCom",className+"Method："+method+" args："+args+" time: "+time);
+        if(context!=null){
+            RecordMethodTable table = new RecordMethodTable();
+            table.setClassName(className);
+            table.setMethod(method);
+            table.setArgs(args);
+            table.setTime(time);
+            DBComponent component = new DBComponent(context);
+            component.insertRecordMethodTable(table);
+        }
     }
 }

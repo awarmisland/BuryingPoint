@@ -3,6 +3,8 @@ package com.awarmisland.android.buryingpoint.buryingPoint.greendao;
 import android.content.Context;
 
 
+import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.RecordMethodTable;
+import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.RecordMethodTableDao;
 import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.ViewClickTable;
 import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.ViewClickTableDao;
 import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.ViewLifecycleTable;
@@ -14,6 +16,7 @@ public class DBComponent {
 
     private ViewLifecycleTableDao viewLifecycleTableDao;
     private ViewClickTableDao viewClickTableDao;
+    private RecordMethodTableDao recordMethodTableDao;
 
     public DBComponent(Context context){
         init(context);
@@ -24,6 +27,8 @@ public class DBComponent {
                 .getDaoSession().getViewLifecycleTableDao();
         viewClickTableDao = DBHelper.getInstance(context)
                 .getDaoSession().getViewClickTableDao();
+        recordMethodTableDao = DBHelper.getInstance(context)
+                .getDaoSession().getRecordMethodTableDao();
     }
 
 
@@ -40,4 +45,7 @@ public class DBComponent {
         viewClickTableDao.insert(table);
     }
 
+    public void insertRecordMethodTable(RecordMethodTable table){
+        recordMethodTableDao.insert(table);
+    }
 }
