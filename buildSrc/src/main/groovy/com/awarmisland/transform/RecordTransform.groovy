@@ -21,7 +21,10 @@ class RecordTransform extends BaseTransform {
 
     @Override
     boolean isModifyClass(String className) {
-        if (className.contains("MainActivity")) {
+//        if (className.contains("MainActivity")) {
+//            return true
+//        }else
+        if(className.contains("SecondActivity")){
             return true
         }
         return false

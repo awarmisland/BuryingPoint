@@ -9,6 +9,10 @@ import com.awarmisland.android.buryingpoint.buryingPoint.greendao.DBComponent;
 import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.RecordMethodTable;
 import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.ViewClickTable;
 import com.awarmisland.android.buryingpoint.buryingPoint.greendao.table.ViewLifecycleTable;
+import com.awarmisland.android.buryingpoint.utils.ListUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DotComponent {
 
@@ -57,17 +61,25 @@ public class DotComponent {
         }
     }
 
-    public void recordMethods(String className,String method,String args){
+    public void recordMethods(String className, String method, String args){
+         recordMethods(className,method,new ArrayList<String>(){{add(args);}});
+    }
+
+    public void recordMethods(String className, String method, List<String> args){
         long time = System.currentTimeMillis();
         Log.d("DotCom",className+"Method："+method+" args："+args+" time: "+time);
-        if(context!=null){
-            RecordMethodTable table = new RecordMethodTable();
-            table.setClassName(className);
-            table.setMethod(method);
-            table.setArgs(args);
-            table.setTime(time);
+        if(context!=null&&!ListUtils.isEmptyList(args)){
+            List<RecordMethodTable> insertTables = new ArrayList<>();
+            for(String arg : args){
+                RecordMethodTable table = new RecordMethodTable();
+                table.setClassName(className);
+                table.setMethod(method);
+                table.setArgs(arg);
+                table.setTime(time);
+                insertTables.add(table);
+            }
             DBComponent component = new DBComponent(context);
-            component.insertRecordMethodTable(table);
+            component.insertRecordMethodTable(insertTables);
         }
     }
 }

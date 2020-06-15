@@ -48,4 +48,7 @@ public class DBComponent {
     public void insertRecordMethodTable(RecordMethodTable table){
         recordMethodTableDao.insert(table);
     }
+    public void insertRecordMethodTable(List<RecordMethodTable> tables){
+        recordMethodTableDao.insertInTx(tables);
+    }
 }
