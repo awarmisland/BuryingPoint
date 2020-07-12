@@ -61,6 +61,19 @@ public class DotComponent {
         }
     }
 
+    public void recordViewClick(String className,String viewName){
+        long time = System.currentTimeMillis();
+        Log.d("DotCom",viewName +" "+" time: "+time);
+        if(context!=null){
+            ViewClickTable table = new ViewClickTable();
+            table.setTime(time);
+            table.setClassName(className);
+            table.setView_name(viewName);
+            DBComponent component = new DBComponent(context);
+            component.insertViewClickTable(table);
+        }
+    }
+
     public void recordMethods(String className, String method, String args){
          recordMethods(className,method,new ArrayList<String>(){{add(args);}});
     }
